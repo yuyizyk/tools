@@ -6,6 +6,7 @@ import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.Objects;
+import java.util.Random;
 
 import org.mozilla.universalchardet.UniversalDetector;
 import org.slf4j.Logger;
@@ -24,6 +25,76 @@ public class StringTools {
 	 * 空字符
 	 */
 	public static final String BANKSTR = "";
+
+	/**
+	 * 随机字符串生成
+	 * 
+	 * @return
+	 */
+	public static String getRandmStr(int length) {
+		char[] tempCs = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o',
+				'p', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm', 'Q', 'W', 'E', 'R',
+				'T', 'Y', 'U', 'I', 'O', 'P', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Z', 'X', 'C', 'V', 'B', 'N',
+				'M' };
+		Random random = new Random();
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < length; i++) {
+			int temp = random.nextInt();
+			if (0 != temp) {
+				sb.append(tempCs[Math.abs(temp) % tempCs.length]);
+			} else {
+				sb.append(tempCs[Integer.MIN_VALUE % tempCs.length]);
+			}
+		}
+		return sb.toString();
+	}
+
+	/**
+	 * 字符串转为16进制
+	 * 
+	 * @param s
+	 * @return
+	 */
+	@SuppressWarnings("static-access")
+	public static String convertStringTo16(String s) {
+		byte[] b = s.getBytes();
+		String str = "";
+		try {
+			for (int i = 0; i < b.length; i++) {
+				Integer I = new Integer(b[i]);
+				String strTmp = I.toHexString(b[i]);
+				if (strTmp.length() > 2)
+					strTmp = strTmp.substring(strTmp.length() - 2);
+				str = str + strTmp;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return str.toUpperCase();
+	}
+
+	/**
+	 * 16进制转为字符串
+	 * 
+	 * @param s
+	 * @return
+	 */
+	public static String toStringHex(String s) {
+		byte[] baKeyword = new byte[s.length() / 2];
+		for (int i = 0; i < baKeyword.length; i++) {
+			try {
+				baKeyword[i] = (byte) (0xff & Integer.parseInt(s.substring(i * 2, i * 2 + 2), 16));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		try {
+			s = new String(baKeyword, "utf-8");
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		return s;
+	}
 
 	/**
 	 * 转化为字符串
