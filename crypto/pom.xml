@@ -8,36 +8,38 @@
 		<artifactId>tools</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>yuyizyk-common</artifactId>
-	<name>common</name>
+	<artifactId>yuyizyk-crypto</artifactId>
+	<name>crypto</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
+
+		<dependency>
+			<groupId>cn.yuyizyk</groupId>
+			<artifactId>yuyizyk-common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- -->
+
+		<!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk16 -->
 		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>3.7</version>
-		</dependency>
-		<!-- -->
-		<dependency>
-			<groupId>commons-beanutils</groupId>
-			<artifactId>commons-beanutils</artifactId>
-			<version>1.9.3</version>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcprov-jdk16</artifactId>
+			<version>1.46</version>
 		</dependency>
 
-		<!-- Mozilla 字符集 -->
-		<!-- https://mvnrepository.com/artifact/com.googlecode.juniversalchardet/juniversalchardet -->
+		<!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
 		<dependency>
-			<groupId>com.googlecode.juniversalchardet</groupId>
-			<artifactId>juniversalchardet</artifactId>
-			<version>1.0.3</version>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.11</version>
 		</dependency>
+
 
 		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12 -->
 		<dependency>
@@ -47,8 +49,5 @@
 			<scope>test</scope>
 		</dependency>
 
-		
-
-		<!-- -->
 	</dependencies>
 </project>
