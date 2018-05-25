@@ -25,7 +25,7 @@ public class Regex {
 	 * @return
 	 */
 	public static final boolean matches(String str, String regex) {
-		return !StringTools.isBank(str) && str.matches(regex);
+		return !Strings.isBank(str) && str.matches(regex);
 	}
 
 	/**
@@ -171,7 +171,7 @@ public class Regex {
 	 * @return 如果是符合格式的字符串,返回 <b>true </b>,否则为 <b>false </b>
 	 */
 	public static boolean Email(String value) {
-		if (StringTools.isBank(value))
+		if (Strings.isBank(value))
 			return false;
 		return match(V_EMAIL, value);
 	}
@@ -415,7 +415,7 @@ public class Regex {
 	 * @return 如果是符合格式的字符串,返回 <b>true </b>,否则为 <b>false </b>
 	 */
 	public static boolean Account(String value) {
-		if (StringTools.isBank(value))
+		if (Strings.isBank(value))
 			return false;
 		return match(V_ACCOUNT, value);
 	}
@@ -439,7 +439,7 @@ public class Regex {
 	 * @return 如果str 符合 regex的正则表达式格式,返回true, 否则返回 false;
 	 */
 	public static boolean match(String regex, String str) {
-		if (StringTools.isBank(str))
+		if (Strings.isBank(str))
 			return false;
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(str);

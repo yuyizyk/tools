@@ -11,7 +11,7 @@ import com.artofsolving.jodconverter.openoffice.connection.OpenOfficeConnection;
 import com.artofsolving.jodconverter.openoffice.connection.SocketOpenOfficeConnection;
 import com.artofsolving.jodconverter.openoffice.converter.OpenOfficeDocumentConverter;
 
-import cn.yuyizyk.tools.common.StringTools;
+import cn.yuyizyk.tools.common.Strings;
 
 /**
  * 
@@ -46,7 +46,7 @@ public class OnlinePDFPreview {
 		
 //		try {
 //			String new_fileName = new String(fileName.getBytes("ISO-8859-1"),"UTF-8");
-			String new_fileName = StringTools.convertStringTo16(fileName.split("\\.")[0]);
+			String new_fileName = Strings.convertStringTo16(fileName.split("\\.")[0]);
 			pathAndName = pathName + fileName;
 			pathAndName_pdf = pathName + new_fileName + ".pdf"; //PDF目标文件
 			if(ifSWF) pathAndName_swf = pathName + new_fileName + ".swf"; //SWF目标文件
