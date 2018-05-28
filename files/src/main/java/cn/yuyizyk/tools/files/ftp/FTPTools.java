@@ -1,4 +1,4 @@
-package cn.yuyizyk.tools.socket.ftp;
+package cn.yuyizyk.tools.files.ftp;
 
 import java.io.File;
 import java.io.FileOutputStream;

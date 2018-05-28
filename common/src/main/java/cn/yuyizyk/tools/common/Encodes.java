@@ -7,7 +7,7 @@ import java.net.URLEncoder;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
 /**
  * 封装各种格式的编码解码工具类.
@@ -86,10 +86,17 @@ public class Encodes {
 	}
 
 	/**
-	 * Xml 转码.
+	 * Xml10 转码.
 	 */
-	public static String escapeXml(String xml) {
-		return StringEscapeUtils.escapeXml(xml);
+	public static String escapeXml10(String xml) {
+		return StringEscapeUtils.escapeXml10(xml);
+	}
+
+	/**
+	 * Xml11 转码.
+	 */
+	public static String escapeXml11(String xml) {
+		return StringEscapeUtils.escapeXml10(xml);
 	}
 
 	/**

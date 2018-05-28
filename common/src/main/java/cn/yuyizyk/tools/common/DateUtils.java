@@ -13,7 +13,6 @@ import java.util.Date;
 import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -71,7 +70,7 @@ public class DateUtils {
 				"yyyy年MM月dd日 HH时mm分ss秒" };
 		Date date = new Date();
 		try {
-			date = DateUtils.parseDate(str, Locale.US, parsePatterns);
+			date = org.apache.commons.lang3.time.DateUtils.parseDate(str, Locale.US, parsePatterns);
 
 			return toLocalDateTime(date);
 		} catch (ParseException e) {
