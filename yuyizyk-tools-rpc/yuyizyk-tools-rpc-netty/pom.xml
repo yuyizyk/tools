@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>yuyizyk-tools-rpc-netty-spring</artifactId>
+	<groupId>cn.yuyizyk</groupId>
+	<name>yuyizyk-tools-rpc-netty-spring</name>
+	<packaging>jar</packaging>
+	<properties>
+		<lombok.version>1.18.4</lombok.version>
+		<yuyizyk-tools-rpc.version>0.0.1-SNAPSHOT</yuyizyk-tools-rpc.version>
+		<yuyizyk-tools.version>0.0.1-SNAPSHOT</yuyizyk-tools.version>
+	</properties>
+	<version>0.0.1-SNAPSHOT</version>
+	<url>http://maven.apache.org</url>
+	<dependencies>
+		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+		<dependency>
+			<groupId>cn.yuyizyk</groupId>
+			<artifactId>yuyizyk-tools-lang</artifactId>
+			<version>${yuyizyk-tools.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+		<dependency>
+			<groupId>cn.yuyizyk</groupId>
+			<artifactId>yuyizyk-tools-rpc-core</artifactId>
+			<version>${yuyizyk-tools-rpc.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>${lombok.version}</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.0</version>
+					<configuration>
+						<source>1.8</source>
+						<target>1.8</target>
+						<encoding>UTF-8</encoding>
+						<verbal>true</verbal>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>
