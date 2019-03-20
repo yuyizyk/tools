@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.databind.util.BeanUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -19,6 +18,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
+import cn.yuyizyk.tools.common.BeanUtil;
 import cn.yuyizyk.tools.common.entity.DoubleEntity;
 import cn.yuyizyk.tools.common.lang.Objs;
 
@@ -60,8 +60,7 @@ public class JSONSerializeUtil extends AbstractSerializeUtil {
 	 * 将json字符串格式化
 	 * 
 	 * @param jsStr
-	 * @param cls
-	 *            格式化对象类型
+	 * @param cls   格式化对象类型
 	 */
 	public <T> T toBeanByJson(String jsStr, Class<T> cls) throws JsonParseException {
 		return util.toBeanByJson(jsStr, cls);
@@ -72,8 +71,7 @@ public class JSONSerializeUtil extends AbstractSerializeUtil {
 	 * gson
 	 * 
 	 * @param jsStr
-	 * @param type
-	 *            可处理泛型
+	 * @param type  可处理泛型
 	 */
 	public <T> T toBeanByJson(String jsStr, TypeToken<T> type) throws JsonParseException {
 		return gsonSerialize.toBeanByJson(jsStr, type);
@@ -237,8 +235,7 @@ public class JSONSerializeUtil extends AbstractSerializeUtil {
 		 * 将json字符串格式化
 		 * 
 		 * @param jsStr
-		 * @param cls
-		 *            格式化对象类型
+		 * @param cls   格式化对象类型
 		 */
 		@Override
 		public <T> T toBeanByJson(String jsStr, Class<T> cls) throws JsonParseException {
@@ -249,8 +246,7 @@ public class JSONSerializeUtil extends AbstractSerializeUtil {
 		 * 将json字符串格式化
 		 * 
 		 * @param jsStr
-		 * @param type
-		 *            可处理泛型
+		 * @param type  可处理泛型
 		 */
 		public final <T> T toBeanByJson(String jsStr, TypeToken<T> type) throws JsonParseException {
 			return gson.fromJson(toJson(jsStr), type.getType());

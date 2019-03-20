@@ -7,8 +7,9 @@ import java.util.Map;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
-import com.yytaliance.entity.Box;
-import com.yytaliance.util.Objs;
+
+import cn.yuyizyk.tools.common.entity.Box;
+import cn.yuyizyk.tools.common.lang.Objs;
 
 /**
  * javaBean与xml之间的序列化和反序列化

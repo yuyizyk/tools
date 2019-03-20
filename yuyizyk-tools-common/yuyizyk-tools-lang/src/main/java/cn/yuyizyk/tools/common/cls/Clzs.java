@@ -11,11 +11,12 @@ import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-//import org.springframework.core.io.Resource;
 
-import cn.yuyizyk.tools.common.function.Action;
+import cn.yuyizyk.tools.common.entity.Action;
+//import org.springframework.core.io.Resource;
 
 /**
  * 根据包名-进行类加载
@@ -23,50 +24,16 @@ import cn.yuyizyk.tools.common.function.Action;
  * @author yuyi
  *
  */
-public class LoaderUtils {
-	private static Logger log = LoggerFactory.getLogger(LoaderUtils.class);
-
-	public static void main(String[] args) throws IOException {
-		Set<Class<?>> set = scanning("cn.yuyizyk.ground.model");
-		set.forEach((c) -> {
-			System.out.println(c.getName());
-		});
-	}
-
-//	public static void scanningResource(Resource[] resources, Action<String> action) {
-//		Stream.of(resources).map(f -> {
-//			try {
-//				return f.getURI().getPath().split("(classes/)|(!/)")[1].replace("/", ".").replace(".class", "");
-//			} catch (IOException e) {
-//				log.error("异常", e);
-//				return null;
-//			}
-//		}).filter(Objects::nonNull).forEach(f -> {
-//			action.apply(f);
-//		});
-//	}
-//
-//	public static Set<Class<?>> scanningResource(Resource[] resources) throws ClassNotFoundException {
-//		Set<Class<?>> classes = new LinkedHashSet<>();
-//		scanningResource(resources, f -> {
-//			try {
-//				classes.add(Class.forName(f));
-//			} catch (ClassNotFoundException e) {
-//				log.error("", e);
-//			}
-//		});
-//		return classes;
-//	}
+public class Clzs {
+	private static Logger log = LoggerFactory.getLogger(Clzs.class);
 
 	/**
 	 * 扫描包路径下的所有class文件
 	 *
-	 * @param pkgName
-	 *            包名
-	 * @param jar
-	 *            jar文件
-	 * @param classes
-	 *            保存包路径下class的集合
+	 * @param pkgName   包名
+	 * @param jar       jar文件
+	 * @param recursive
+	 * @param classes   保存包路径下class的集合
 	 */
 	private static void findClassesByJar(String pkgName, JarFile jar, Action<Class<?>> action) {
 		String pkgDir = pkgName.replace(".", "/");
@@ -101,14 +68,12 @@ public class LoaderUtils {
 	/**
 	 * 扫描包路径下的所有class文件
 	 *
-	 * @param pkgName
-	 *            包名
-	 * @param pkgPath
-	 *            包对应的绝对地址
-	 * @param classes
-	 *            保存包路径下class的集合
+	 * @param pkgName   包名
+	 * @param pkgPath   包对应的绝对地址
+	 * @param recursive
+	 * @param classes   保存包路径下class的集合
 	 */
-	private static void findClassesByFile(String pkgName, String pkgPath, Action<Class<?>> action) {
+	private static void findClassesByFile(String pkgName, String pkgPath, Action<Class<?>> action, Boolean recursive) {
 		File dir = new File(pkgPath);
 		if (!dir.exists() || !dir.isDirectory()) {
 			return;
@@ -122,26 +87,27 @@ public class LoaderUtils {
 		}
 
 		String className;
-		Class clz;
+		Class<?> clz;
 		for (File f : dirfiles) {
-			if (f.isDirectory()) {
-				findClassesByFile(pkgName + "." + f.getName(), pkgPath + "/" + f.getName(), action);
+			if (f.isDirectory() && recursive) {
+				findClassesByFile(pkgName + "." + f.getName(), pkgPath + "/" + f.getName(), action, recursive);
 				continue;
 			}
 
 			// 获取类名，干掉 ".class" 后缀
 			className = f.getName();
-			className = className.substring(0, className.length() - 6);
-
-			// 加载类
-			clz = loadClass(pkgName + "." + className);
-			if (clz != null) {
-				action.apply(clz);
+			if (StringUtils.isNotBlank(className) && className.endsWith(".class")) {
+				className = className.substring(0, className.length() - 6);
+				// 加载类
+				clz = loadClass(pkgName + "." + className);
+				if (clz != null) {
+					action.apply(clz);
+				}
 			}
 		}
 	}
 
-	public static final Class<?> loadClass(String fullClzName) {
+	public static Class<?> loadClass(String fullClzName) {
 		try {
 			return Thread.currentThread().getContextClassLoader().loadClass(fullClzName);
 		} catch (ClassNotFoundException e) {
@@ -156,19 +122,31 @@ public class LoaderUtils {
 	 * @param pkg
 	 * @return
 	 */
-	public static void scanning(String basePackage, Action<Class<?>> action) {
-		String pkgDirName = basePackage.replace('.', '/');
+	public static Set<Class<?>> getClzFromPkg(String pkg) {
+		Set<Class<?>> classes = new LinkedHashSet<>();
+		scanning(pkg, c -> classes.add(c));
+		return classes;
+	}
+
+	/**
+	 * 扫描包路径下所有的class文件,是否递归扫描
+	 *
+	 * @param pkg
+	 * @return
+	 */
+	public static void scanning(String pkg, Boolean recursive, Action<Class<?>> action) {
+		String pkgDirName = pkg.replace('.', '/');
 		try {
-			Enumeration<URL> urls = LoaderUtils.class.getClassLoader().getResources(pkgDirName);
+			Enumeration<URL> urls = Thread.currentThread().getContextClassLoader().getResources(pkgDirName);
 			while (urls.hasMoreElements()) {
 				URL url = urls.nextElement();
 				String protocol = url.getProtocol();
 				if ("file".equals(protocol)) {// 如果是以文件的形式保存在服务器上
 					String filePath = URLDecoder.decode(url.getFile(), "UTF-8");// 获取包的物理路径
-					findClassesByFile(basePackage, filePath, action);
+					findClassesByFile(pkg, filePath, action, recursive);
 				} else if ("jar".equals(protocol)) {// 如果是jar包文件
 					JarFile jar = ((JarURLConnection) url.openConnection()).getJarFile();
-					findClassesByJar(basePackage, jar, action);
+					findClassesByJar(pkg, jar, action);
 				}
 			}
 		} catch (IOException e) {
@@ -182,9 +160,7 @@ public class LoaderUtils {
 	 * @param pkg
 	 * @return
 	 */
-	public static Set<Class<?>> scanning(String basePackage) {
-		Set<Class<?>> classes = new LinkedHashSet<>();
-		scanning(basePackage, c -> classes.add(c));
-		return classes;
+	public static void scanning(String pkg, Action<Class<?>> action) {
+		scanning(pkg, true, action);
 	}
 }

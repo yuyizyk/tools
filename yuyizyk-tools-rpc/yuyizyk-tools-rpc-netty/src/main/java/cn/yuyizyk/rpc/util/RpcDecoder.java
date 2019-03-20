@@ -3,8 +3,7 @@ package cn.yuyizyk.rpc.util;
 import java.sql.Timestamp;
 import java.util.List;
 
-import com.yytaliance.util.seriailize.ProtostuffSerializeUtil;
-
+import cn.yuyizyk.tools.serialization.ProtostuffSerializeUtil;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;

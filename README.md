@@ -1,15 +1,15 @@
-# ground
+# TOOLS
 
 #### 项目介绍
-该项目为简单自检博客使用
+该项目为工具记录项目集
 
 #### 软件架构
-cn.yuyizyk.action: 业务handler
-cn.yuyizyk.action.api: 特定api业务handler
-cn.yuyizyk.compent: 项目组件
-cn.yuyizyk.util: 项目常用工具
+- yuyizyk-tools-common:	常用业务项目
+- yuyizyk-tools-rpc:		RPC工具项目
+- yuyizyk-tools-servlet:	常用servlet 工具
+- yuyizyk-tools-spring:	常用spring  工具
 
 
 
 #### 使用说明
-v2.*
+单包引入

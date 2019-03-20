@@ -16,7 +16,6 @@ import org.apache.commons.beanutils.PropertyUtilsBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 import cn.yuyizyk.tools.common.lang.Objs;
 import net.sf.cglib.beans.BeanCopier;
 
@@ -143,10 +142,10 @@ public class BeanUtil {
 		public <Timestamp> Timestamp convert(Class<Timestamp> paramClass, Object paramObject) {
 			if (paramObject == null)
 				return null;
-			LocalDateTime localDateTime = DateUtil.parse(paramObject.toString());
+			LocalDateTime localDateTime = DateUtils.parse(paramObject.toString());
 			if (localDateTime == null)
 				return null;
-			return (Timestamp) DateUtil.toTimestamp(localDateTime);
+			return (Timestamp) DateUtils.toTimestamp(localDateTime);
 		}
 
 	}
@@ -158,10 +157,10 @@ public class BeanUtil {
 		public <Date> Date convert(Class<Date> paramClass, Object paramObject) {
 			if (paramObject == null)
 				return null;
-			LocalDateTime localDateTime = DateUtil.parse(paramObject.toString());
+			LocalDateTime localDateTime = DateUtils.parse(paramObject.toString());
 			if (localDateTime == null)
 				return null;
-			return (Date) DateUtil.toSqlDate(localDateTime);
+			return (Date) DateUtils.toSqlDate(localDateTime);
 		}
 
 	}

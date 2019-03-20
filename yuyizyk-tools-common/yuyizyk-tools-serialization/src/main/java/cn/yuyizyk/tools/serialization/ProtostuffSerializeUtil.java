@@ -9,8 +9,7 @@ import java.util.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.yytaliance.entity.Box;
-
+import cn.yuyizyk.tools.common.entity.Box;
 import io.protostuff.Input;
 import io.protostuff.LinkedBuffer;
 import io.protostuff.Output;

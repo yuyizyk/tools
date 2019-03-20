@@ -9,17 +9,43 @@
 	<name>yuyizyk-tools-rpc-netty-spring</name>
 	<packaging>jar</packaging>
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<lombok.version>1.18.4</lombok.version>
+		<spring-boot.version>2.0.6.RELEASE</spring-boot.version>
 		<yuyizyk-tools-rpc.version>0.0.1-SNAPSHOT</yuyizyk-tools-rpc.version>
 		<yuyizyk-tools.version>0.0.1-SNAPSHOT</yuyizyk-tools.version>
 	</properties>
 	<version>0.0.1-SNAPSHOT</version>
 	<url>http://maven.apache.org</url>
 	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-autoconfigure</artifactId>
+			<version>${spring-boot.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<version>${spring-boot.version}</version>
+			<optional>true</optional>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-pool2 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-pool2</artifactId>
+			<version>2.6.0</version>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
 		<dependency>
 			<groupId>cn.yuyizyk</groupId>
 			<artifactId>yuyizyk-tools-lang</artifactId>
+			<version>${yuyizyk-tools.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+		<dependency>
+			<groupId>cn.yuyizyk</groupId>
+			<artifactId>yuyizyk-tools-serialization</artifactId>
 			<version>${yuyizyk-tools.version}</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
@@ -35,7 +61,23 @@
 			<version>${lombok.version}</version>
 			<scope>provided</scope>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/io.netty/netty-all -->
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-all</artifactId>
+			<version>4.1.31.Final</version>
+		</dependency>
 	</dependencies>
+	<repositories>
+		<repository>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<id>central</id>
+			<name>bintray</name>
+			<url>http://jcenter.bintray.com</url>
+		</repository>
+	</repositories>
 	<build>
 		<pluginManagement>
 			<plugins>

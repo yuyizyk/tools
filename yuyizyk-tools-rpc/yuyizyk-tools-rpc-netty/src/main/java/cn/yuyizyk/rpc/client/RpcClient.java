@@ -1,35 +1,57 @@
 package cn.yuyizyk.rpc.client;
 
-
+import cn.yuyizyk.rpc.core.IGetterRouting;
+import cn.yuyizyk.rpc.core.RequestFailedException;
 import cn.yuyizyk.rpc.core.RpcRequest;
 import cn.yuyizyk.rpc.core.RpcResponse;
+import cn.yuyizyk.rpc.core.RequestFailedException.EType;
 import cn.yuyizyk.tools.common.entity.DoubleEntity;
 import lombok.extern.slf4j.Slf4j;
-import sun.security.krb5.internal.crypto.EType;
 
 /**
- * 
+ * RPC CLIENT 完成RPC客户端对资源的请求(底层)
  * 
  *
  * @author yuyi
  */
 @Slf4j
 public class RpcClient {
-	private final RpcRequest request;
+
+	/** 本次RPC会话的请求信息 */
+	private RpcRequest request;
+	/** 本次RPC会话的响应信息 */
+	private RpcResponse response;
+	/** 锁信号 */
+	private final Object obj = new Object();
+	/** 会话通信底层 */
 	private final ClientInokerHandler cihandler;
+	/** 会话路由信息 */
+	private final IGetterRouting getterRouting;
 
-	private final GetterRouting getterRouting;
-
-	public RpcClient(GetterRouting getterRouting, RpcRequest request, ClientInokerHandler cihandler) {
+	public RpcClient(IGetterRouting getterRouting, RpcRequest request, ClientInokerHandler cihandler) {
 		this.getterRouting = getterRouting;
 		this.request = request;
 		this.cihandler = cihandler;
+	}
+
+	/** ClientInokerHandler 回调设置 */
+	public void setRpcResponse(RpcResponse response) {
+		this.response = response;
+		synchronized (obj) {
+			obj.notify();
+		}
 	}
 
 	public RpcRequest getRequest() {
 		return request;
 	}
 
+	/**
+	 * 发送请求(同步请求)
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
 	public RpcResponse send() throws Exception {
 		DoubleEntity<String, Integer> hostAndPort;
 		int i = 0;
@@ -59,14 +81,4 @@ public class RpcClient {
 		return response;
 	}
 
-	private final Object obj = new Object();
-
-	public void setRpcResponse(RpcResponse response) {
-		this.response = response;
-		synchronized (obj) {
-			obj.notify();
-		}
-	}
-
-	private RpcResponse response;
 }
